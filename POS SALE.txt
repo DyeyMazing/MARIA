@@ -1,0 +1,110 @@
+(Deadline : 06/08/2022 1PM)
+
+The MultiPOS project is starting the phase 2 development. Phase 1 was mainly for testing if all POS machines are apple to process transactions seamlessly.   With Phase 2, the company decided to integrate basic UI functionality  and have expanded the item types inside a transaction.  See requirements below:
+
+Types of transactions :
+-	Sale Transaction
+o	A sale transaction can contain several SaleItems
+o	A sale transaction can contain at most 1 DiscountItem
+o	A sale transaction can contain at most 1 TaxItem
+o	The Transaction Amount is computed as  : the total sale item amount + taxitem amount – discountitem amount
+o	The SaleItem , DiscountItem and TaxItem can be voidable. If voided, the amount  will not be factored in the computation.
+
+-	Mo Sale Transaction
+o	The no sale tran will contain 1 NoSaleItem
+o	The tran amount is equal to the no sale item amount
+o	The NoSaleItem can be voided. . If voided, the amount  will not be factored in the computation.
+
+The other functionalities for printing the transactions and showing summary will remain the same.
+
+Here are some design  requirements
+1.	All item types ( SaleItem, DiscountItem, TaxItem, NoSaleItem) must implement the ILineItem.
+2.	The ILineItem interface has these 2 properties : Price  (Decimal), IsVoided (Boolean)  and 1 method VoidTransaction  (the implementation of VoidTransaction is to set the IsVoided property to true)
+
+Below is a sample run and selecting the desktopPOS
+
+
+Welcome to MuiltiPOS v2.0
+Please select the POS type:
+1. DesktopPOS
+2. WindowsPOS
+3. LinuxPOS
+4. MobilePOS
+5. IOSPOS
+6. AndroidPOS
+7. WebPOS
+Enter choice : 1
+POS machine phPOS is starting...
+Machine Name : phPOS ; iPAddress : 22.11.11.78
+POS phPOS successfully started ...
+POS Type : Desktop POS
+This desktop POS with version 2.9.99 is located in Manila, Philippines
+POS is ready to accept transactions.
+Press any key to start...
+
+Do you want to create a new transaction (y/n)? Y
+Is it a sale or no-sale transaction (1- sale;0-no-sale) ?:1
+
+Enter item details :
+PLU : 111123
+Price : 10.99
+Voided (1-yes ; 0 - No) : 0
+Item Added
+
+Enter a new item (y/n) ? Y
+PLU : 11115
+Price : 1.99
+Voided (1-yes ; 0 - No) : 0
+Item Added
+
+Enter a new item (y/n) ? Y
+PLU : 112222
+Price : 1.99
+Voided (1-yes ; 0 - No) : 1
+Item Added
+
+Enter a new item (y/n) ? N
+Do you have a discount (y/n): Y
+
+Enter discount details :
+DiscountID : 112222
+Price : 1.99
+Voided (1-yes ; 0 - No) : 0
+Discount Added
+
+Is the transaction taxable (y/n) :Y
+TaxID : 1111111
+Price : 1.99
+Voided (1-yes ; 0 - No) : 0
+Tax Added
+
+Do you want to void the transaction (y/n) : N
+- Adding transaction 1 at the DesktopPOS
+Do you want to create a new transaction (y/n)? Y
+Is it a sale or no-sale transaction (1- sale;0-no-sale) ?:0
+
+Enter No-sale item details:
+No-sale ID : 1222222
+Price : 1.99
+Voided (1-yes ; 0 - No) : 0
+No Sale item added
+- Adding transaction 2 at the DesktopPOS
+
+Do you want to create a new transaction (y/n)? N
+Printing transactions ...
+- TranNo = 1 ; Date = 6/7/2022 ; Total = 12.98 ; Type = SALE ; VALID
+- TranNo = 2 ; Date = 6/7/2022 ; Total = 1.99 ; Type = NO_SALE ; VALID
+
+Showing transaction summary ...
+
+Total no of transaction :2
+Total Sale Amount : 12.98
+Total No Sale Amount : 1.99
+Voided Sale : 0
+Voided No Sale : 0
+
+Clearing the transactions ....
+Powering down the phPOS machine ...
+Releasing the address 22.11.11.78 ...
+POS Machine phPOS stopped.
+
